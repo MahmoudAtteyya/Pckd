@@ -11,14 +11,17 @@ services:
       - DATABASE_TYPE=postgres
       - JWT_SECRET=supersecretkey123
       - IPREGISTRY_API_KEY=f1ntkcjoqaazglj7
-      # إعدادات الروابط
+      
+      # إعدادات الروابط (تأكد من صحتها)
       - CLIENT_URL=https://link.elliaa.com
       - SERVER_URL=https://link.elliaa.com/graphql
       - DOMAIN=link.elliaa.com
-      # 👇 هذا السطر هو حل مشكلة 502 👇
-      # يجبر السيرفر على قبول الاتصالات من خارج الحاوية (من Nginx)
+      
+      # 👇👇👇 هذا هو الحل السحري 👇👇👇
+      # هذا المتغير يجبر السيرفر على قبول الاتصالات الخارجية
       - HOST=0.0.0.0
       - PORT=4000
+      
     depends_on:
       - db
     networks:
@@ -28,8 +31,8 @@ services:
   frontend:
     build:
       context: ./client
-    # لا نحتاج لفتح منافذ هنا، Dokploy سيوجه للدومين مباشرة
     environment:
+      # تأكد أن الرابط هنا هو اسم الخدمة داخلياً
       - BACKEND_URL=http://server:4000
     networks:
       - dokploy-network
