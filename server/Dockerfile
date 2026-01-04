@@ -1,4 +1,4 @@
-FROM node:16-alpine
+FROM node:20-alpine
 
 # Dependencies
 RUN apk add --no-cache dos2unix
@@ -15,7 +15,7 @@ WORKDIR /home/node/app
 # Install dependencies
 COPY package.json .
 COPY package-lock.json .
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 # Copy the rest of the app
 COPY . .
