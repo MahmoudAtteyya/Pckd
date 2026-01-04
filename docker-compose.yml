@@ -9,19 +9,25 @@ services:
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db/pckd
       - DATABASE_TYPE=postgres
-
       - JWT_SECRET=verysecurestring
       - IPREGISTRY_API_KEY=f1ntkcjoqaazglj7
     depends_on:
       - db
+    networks:
+      - dokploy-network
+      - default
 
   frontend:
     build:
       context: ./client
-    ports:
-      - 3001:80
+    # قمنا بإلغاء المنافذ لأن Dokploy سيتولى التوجيه الداخلي
+    # ports:
+    #   - 3001:80
     environment:
       - BACKEND_URL=http://server:4000
+    networks:
+      - dokploy-network
+      - default
 
   db:
     image: postgres:13-alpine
@@ -31,3 +37,9 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=pckd
+    networks:
+      - default
+
+networks:
+  dokploy-network:
+    external: true
