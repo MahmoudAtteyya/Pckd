@@ -1,8 +1,9 @@
 FROM node:20-alpine
 
 # Dependencies
-# 👇 التعديل هنا: أضفنا openssl للقائمة
+# تثبيت المكتبات المطلوبة للنظام
 RUN apk add --no-cache dos2unix openssl
+# تثبيت أداة prisma CLI عالمياً
 RUN npm install -g nodemon prisma@5
 
 # Start script
@@ -17,6 +18,9 @@ WORKDIR /home/node/app
 COPY package.json .
 COPY package-lock.json .
 RUN npm install --legacy-peer-deps
+
+# 👇 التعديل الجوهري هنا: ترقية بريزما محلياً للإصدار 5 ليناسب النظام
+RUN npm install prisma@5 @prisma/client@5 --legacy-peer-deps
 
 # Copy the rest of the app
 COPY . .
