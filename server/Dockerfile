@@ -1,8 +1,8 @@
 FROM node:20-alpine
 
 # Dependencies
-# تم تعديل السطر التالي لتثبيت prisma الإصدار 5 تحديداً لتجنب مشاكل الإصدار 7
-RUN apk add --no-cache dos2unix
+# 👇 التعديل هنا: أضفنا openssl للقائمة
+RUN apk add --no-cache dos2unix openssl
 RUN npm install -g nodemon prisma@5
 
 # Start script
