@@ -12,7 +12,8 @@ COPY . .
 RUN npm run build
 
 # Use nginx to serve the react application
-FROM nginx 
+# التعديل هنا: استخدام نسخة alpine لأنها تحتوي على أدوات الشبكة المطلوبة
+FROM nginx:alpine
 
 # Copy the react application
 RUN rm -r /usr/share/nginx/html/*
@@ -26,6 +27,7 @@ COPY ./nginx.conf /etc/nginx/conf.d/default.conf.tmp
 COPY ./docker-start.sh /entrypoint.sh
 
 EXPOSE 80
-RUN chmod +x entrypoint.sh
+# التعديل هنا: استخدام المسار الكامل للتأكد من تغيير الصلاحيات للملف الصحيح
+RUN chmod +x /entrypoint.sh
 ENTRYPOINT [ "/entrypoint.sh" ]
 CMD [ "nginx", "-g", "daemon off;" ]
