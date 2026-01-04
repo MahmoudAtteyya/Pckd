@@ -19,7 +19,7 @@ services:
     build:
       context: ./client
     ports:
-      - 80:80
+      - 3001:80
     environment:
       - BACKEND_URL=http://server:4000
 
